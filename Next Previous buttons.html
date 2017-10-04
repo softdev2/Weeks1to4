@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Next Previous Buttons</title>
+</head>
+<body>
+  <h1>Next Previous Buttons</h1>
+
+  <div style="display:block" id="tabA">
+      <div>
+          Info A
+      </div>
+      <button style="alignment: right" onclick="showNext('A', 'B')">next</button>
+  </div>
+  <div style="display:none" id="tabB">
+      <div>
+          Info B
+      </div>
+      <button style="alignment: right" onclick="showNext('B', 'C')">next</button>
+      <button style="alignment: left" onclick="showNext('B', 'A')">previous</button>
+  </div>
+  <div style="display:none" id="tabC">
+      <div>
+          Info C
+      </div>
+      <button style="alignment: left" onclick="showNext('C', 'B')">previous</button>
+  </div>
+
+  <script>
+      function showNext(me, next) {
+          var meElem= document.getElementById("tab"+me);
+          var nextElem= document.getElementById("tab"+next);
+          meElem.style.display="none";
+          nextElem.style.display="block";
+
+      }
+  </script>
+
+</body>
+</html>

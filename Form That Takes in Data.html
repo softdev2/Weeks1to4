@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Input Form</title>
+</head>
+
+<body>
+  <h1>Data Input Form</h1>
+
+  <div style="display: block" id="idField">
+      <div>ID: <span id="idInput"></span>
+          <input type="number" id="inputIdNumber"/>
+      </div>
+  </div>
+  <div style="display: block" id="nameField">
+      <div>Name: <span id="nameInput"></span>
+          <input type="text" id="inputNameText"/>
+      </div>
+  </div>
+  <div>
+      <button style="alignment: left" onclick="submitData()">Submit</button>
+  </div>
+  <div>
+      <button style="alignment: right" onclick="showNext ('A', 'B')">Next</button>
+  </div>
+
+  <h1>Students</h1>
+  <table id="studentTable">
+  <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Action</th>
+  </tr>
+  <tr>
+      <td>555</td>
+      <td></td>
+      <td>
+          <button id="buttonUpdate0">Update</button></td>
+
+          <button id="buttonDelete0" style="background-color: red">Delete</button>
+      </td>
+  </tr>
+  <tr>
+      <td></td>
+      <td></td>
+      <td>
+          <button id="buttonUpdate1">Update</button>
+          <button id="buttonDelete1" style="background-color: red">Delete</button>
+      </td>
+  </tr>
+  <tr>
+      <td></td>
+      <td></td>
+      <td>
+          <button id="buttonUpdate2">Update</button>
+          <button id="buttonDelete2" style="background-color: red">Delete</button>
+      </td>
+  </tr>
+  </table>
+
+  <script>
+    function submitData () {
+        var idElem = document.getElementById("inputIdNumber");
+        var nameElem = document.getElementById("inputNameText");
+        var student = {};
+        student.id = idElem.value;
+        student.name = nameElem.value;
+        idElem.value = "";
+        nameElem.value = "";
+        insertStudentIntoTable(student);
+    }
+
+    function insertStudentIntoTable(student) {
+        console.log(student);
+        var studentTable = document.getElementById("studentTable");
+        var row = studentTable.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        cell1.innerHTML = student.id;
+        var cell2 = row.insertCell(1);
+        cell2.innerHTML = student.name;
+        var cell3 = row.insertCell(2);
+        cell3.innerHTML = '<button id="buttonUpdate0">Update</button>';
+        cell3 = row.insertCell(3);
+        cell3.innerHTML = '<button id="buttonDelete0">Update</button>';
+
+
+    }
+
+  </script>
+</body>
+</html>
