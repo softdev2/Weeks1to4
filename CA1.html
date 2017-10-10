@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CA #1</title>
+</head>
+<body>
+<div id="movieEdit" atyle="display: block">
+    <div>
+        <h1>Edit Movie Data</h1>
+        Movie ID: <input type="number" id="idInput" name="idInput"/>
+        </br>
+        Movie Title: <input type="string" id="titleInput" name="titleInput"/>
+        </br>
+        Date Published: <input type="date" id="dateInput" name="dateInput"/>
+        </br>
+    </div>
+    <div><button id="updateButton" onclick="addRow()">Update</button></div>
+    <div><button id="nextButton" onclick="nextPage('movieEdit', 'tableData')">Next Page</button></div>
+</div>
+
+<div id="tableData" style="display: none">
+    <table id="movieTable">
+        <tr><th>Movie ID</th><th>Movie Title</th><th>Date Published</th><th>Update</th><th>Delete</th></tr>
+        <tr id = "1"><td>01</td><td>Fight Club</td><td>10/09/1999</td><td><button onclick="goToUpdateForm(this)">Update Movie Information</button></td><td><button onclick="deleteRow(this)">Delete Movie Information</button></td></tr>
+        <tr id = "2"><td>02</td><td>V For Vendetta</td><td>07/03/2006</td><td><button onclick="goToUpdateForm(this)">Update Movie Information</button></td><td><button onclick="deleteRow(this)">Delete Movie Information</button></td></tr>
+        <tr id = "3"><td>03</td><td>Terminator 2</td><td>16/08/1991</td><td><button onclick="goToUpdateForm(this)">Update Movie Information</button></td><td><button onclick="deleteRow(this)">Delete Movie Information</button></td></tr>
+        <tr id = "4"><td>04</td><td>Seven</td><td>15/09/1995</td><td><button onclick="goToUpdateForm(this)">Update Movie Information</button></td><td><button onclick="deleteRow(this)">Delete Movie Information</button></td></tr>
+        <tr id = "5"><td>05</td><td>Pulp Ficton</td><td>10/09/1994</td><td><button onclick="goToUpdateForm(this)">Update Movie Information</button></td><td><button onclick="deleteRow(this)">Delete Movie Information</button></td></tr>
+    </table>
+    <div><button id="previousPage" onclick="nextPage('tableData', 'movieEdit')">Previous Page</button></div>
+</div>
+
+<div style="display: none" id="buttonsTemplate">
+    <button onclick="delete(XXX)">Delete Movie Information</button>
+    <button onclick="update(XXX)">Update Movie Information</button>
+
+</div>
+<div style="display: none" id="tdTemplate">
+    <td>XXXID</td>
+    <td>XXXNAME</td>
+    <td><button onclick="delete(XXXID)">Delete Movie Information</button></td>
+    <td><button onclick="update(XXXID)">Update Movie Information</button></td>
+
+</div>
+
+<script>
+    /*start of pagination function */
+    function nextPage(thisDivId, nextDivId) {
+        var thisDiv = document.getElementById(thisDivId);
+        var nextDiv = document.getElementById(nextDivId);
+        thisDiv.style.display = "none";
+        nextDiv.style.display = "block";
+        console.log("coming from "+thisDivId + "\n\tgoing to \""+nextDivId+"\"");
+    }
+    /*end of pagination function */
+
+    /* start of data addition function */
+    function addRow() {
+        var idElem = document.getElementById("idInput");
+        var titleElem = document.getElementById("titleInput");
+        var dateElem = document.getElementById("dateInput");
+        var movieTitle = {};
+        movieTitle.id = idElem.value;
+        movieTitle.name = titleElem.value;
+        movieTitle.date = new Date(dateElem.value);
+        idElem.value = "";
+        titleElem.value="";
+        dateElem.value ="";
+        insertMovieIntoTable(movieTitle);
+    }
+    function insertMovieIntoTable(movieTitle) {
+        console.log(movieTitle);
+        var movieTable = document.getElementById("movieTable");
+        var row = movieTable.insertRow(-1);
+        var cell = row.insertCell(0);
+        cell.innerHTML = movieTitle.id;
+        cell = row.insertCell(1);
+        cell.innerHTML = movieTitle.name;
+        cell = row.insertCell(2);
+        cell.innerHTML = movieTitle.date;
+        cell = row.insertCell(3);
+
+        var buttonText = document.getElementById("buttonsTemplate").innerHTML;
+        buttonText = buttonText.replace("XXX",movieTitle.id);
+        buttonText = buttonText.replace("XXX",movieTitle.id);
+        cell.innerHTML = buttonText;
+    }
+
+
+    /*End of data addition function */
+
+    /*Start of delete row function */
+    function deleteRow(deleteButton) {
+        var row = deleteButton.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        console.log();
+    }
+    /*End of delete row function */
+
+    /*Start of data update function */
+    function goToUpdateForm(buttonElem){
+        var row = buttonElem("tr");
+        var rowId = row.getAttribute("id");
+        console.log(rowId);
+        var movieTitle = {};
+        movieTitle.id   = row.getElementsByTagName("td")[0].firstChild.nodeValue;
+        movieTitle.name = row.getElementsByTagName("td")[1].firstChild.nodeValue;
+        movieTitle.date = row.getElementByTagName("td")[2].firstChild.nodeValue;
+        populateUpdateForm(movieTitle, rowId)
+    }
+    function populateUpdateForm(movieTitle, rowId) {
+        console.log(movieTitle);
+        document.getElementById("idInput").value = movieTitle.id;
+        document.getElementById("titleInput").value = movieTitle.name;
+        document.getElementById("dateInput").value = movieTitle.date;
+        var button = document.getElementById("updateButton");
+        button.innerHTML = "Update Movie Information";
+        button.onclick = function() {
+            console.log("update clicked "+rowId);
+            var movieTitle = {};
+            movieTitle.id      = document.getElementById("studentId").value;
+            movieTitle.name    = document.getElementById("studentName").value;
+            console.log(movieTitle);
+            updateRow(movieTitle, rowId);
+        }}
+    function updateRow(movieTitle, rowId){
+        console.log("about to update row "+rowId);
+        var row = document.getElementById(rowId);
+        row.getElementsByTagName("td")[0].innerHTML = movieTitle.id;
+        row.getElementsByTagName("td")[1].innerHTML = movieTitle.name;
+        row.getElementsByTagName("td")[2].innerHTML = movieTitle.date;
+    }
+    /*End of data update function */
+</script>
+
+</body>
+</html>
