@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pong Lab Sheet</title>
+</head>
+<body>
+<canvas id="board" width="400" height="400">does not suport canvas</canvas>
+
+<script>
+
+
+    function drawAll() {
+        var canvas = document.getElementById("board");
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        paddle1.draw(ctx);
+    }
+
+    function paddleDraw(ctx) {
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+
+    var paddle1 = {x:10, y:100, vx:0, vy:0, w:10, h:40,
+        tick:paddleTick,
+        draw: paddleDraw,
+        handleKeyDown: paddleKeyDown,
+        handleKeyUp: undefined,
+        downKey:83,
+        upKey:87};
+
+    function tickAll() {
+        var canvas = document.getElementById("board");
+        paddle1.tick(canvas);
+        drawAll();
+        //console.log("tickAll is called.");
+    }
+
+     function paddleTick(canvas) {
+        console.log(this.vy);
+         this.y += this.vy;
+         if (this.y < 0-this.h) {this.y= canvas.height;}
+         if (this.y > canvas.height) {this.y= 0- this.h;}
+
+    }
+    function paddleKeyDown(key) {
+        //console.log("paddleKeyDown called.")
+        if (key == this.downKey) {this.vy = options.paddleY;}
+        if (key == this.upKey)   {this.vy = options.paddleY;}
+
+    }
+
+    drawAll();
+    setInterval(tickAll, 1000/60);
+    window.addEventListener("keydown", function (event) {
+        console.log(event.keyCode);
+        paddle1.handleKeyDown(event.keyCode);
+    });
+</script>
+</body>
+</html>
