@@ -25,9 +25,17 @@
         tick:paddleTick,
         draw: paddleDraw,
         handleKeyDown: paddleKeyDown,
-        handleKeyUp: undefined,
+        handleKeyUp: paddleKeyUp,
         downKey:83,
         upKey:87};
+
+    var paddle2 = {x:390, y:100, vx:0, vy:0, w:10, h:40,
+        tick:paddleTick,
+        draw:paddleDraw,
+        handleKeyDown: paddleKeyDown,
+        handleKeyUp: paddleKeyUp,
+        downKey:40,
+        upKey:38};
 
     function tickAll() {
         var canvas = document.getElementById("board");
@@ -46,7 +54,13 @@
     function paddleKeyDown(key) {
         //console.log("paddleKeyDown called.")
         if (key == this.downKey) {this.vy = options.paddleY;}
-        if (key == this.upKey)   {this.vy = options.paddleY;}
+        if (key == this.upKey)   {this.vy = -options.paddleY;}
+
+    }
+    function paddleKeyUp(key) {
+        //console.log("paddleKeyDown called.")
+        if (key == this.downKey) {this.vy = 0;}
+        if (key == this.upKey)   {this.vy = 0;}
 
     }
 
@@ -56,6 +70,10 @@
         console.log(event.keyCode);
         paddle1.handleKeyDown(event.keyCode);
     });
+    window.addEventListener("keyup", function (event) {
+        console.log(event.keyCode);
+        paddle1.handleKeyUp(event.keyCode);
+    }
 </script>
 </body>
 </html>
