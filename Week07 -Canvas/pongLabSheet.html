@@ -9,18 +9,20 @@
 
 <script>
 
-
     function drawAll() {
         var canvas = document.getElementById("board");
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         paddle1.draw(ctx);
+        paddle2.draw(ctx);
+        ball.draw(ctx);
     }
 
     function paddleDraw(ctx) {
         ctx.fillRect(this.x, this.y, this.w, this.h);
     }
 
+    var options ={paddleY: 2};
     var paddle1 = {x:10, y:100, vx:0, vy:0, w:10, h:40,
         tick:paddleTick,
         draw: paddleDraw,
@@ -40,15 +42,16 @@
     function tickAll() {
         var canvas = document.getElementById("board");
         paddle1.tick(canvas);
+        paddle2.tick(canvas);
         drawAll();
         //console.log("tickAll is called.");
     }
 
      function paddleTick(canvas) {
-        console.log(this.vy);
-         this.y += this.vy;
-         if (this.y < 0-this.h) {this.y= canvas.height;}
-         if (this.y > canvas.height) {this.y= 0- this.h;}
+        //console.log(this.vy);
+        this.y += this.vy;
+        if (this.y < 0-this.h) {this.y= canvas.height;}
+        if (this.y > canvas.height) {this.y= 0- this.h;}
 
     }
     function paddleKeyDown(key) {
@@ -64,16 +67,49 @@
 
     }
 
+    var ball={x:200, y:200, r:20, vx:1, vy:1.5,
+    tick:ballTick,
+    draw:ballDraw};
+
+    function ballTick(canvas) {
+        // move the ball
+        this.x+=this.vx;
+        this.y+=this.vy;
+        // have ball bounce to top and bottom of canvas
+        if (this.y < this.r) {this.vy = Math.abs(this.vy);}
+        if (this.y > (canvas.height- this.r)){this.vy = -Math.abs(this.vy);}
+        // if ball goes over either side, put it back in middle
+        if (this.x < 0 -this.r) {
+            this.x= 200;
+            this.y= 200;
+            this.vx = Math.abs (this.vx);
+        }
+        if (this.x > (canvas.width + this.r)) {
+            this.x= 200;
+            this.y= 200;
+            this.vx = -Math.abs(this.vx);
+        }
+
+    };
+
+    function ballDraw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+        ctx.fill();
+    }
+
     drawAll();
     setInterval(tickAll, 1000/60);
     window.addEventListener("keydown", function (event) {
         console.log(event.keyCode);
         paddle1.handleKeyDown(event.keyCode);
+        paddle2.handleKeyDown(event.keyCode);
     });
     window.addEventListener("keyup", function (event) {
         console.log(event.keyCode);
         paddle1.handleKeyUp(event.keyCode);
-    }
+        paddle2.handleKeyUp(event.keyCode);
+    });
 </script>
 </body>
 </html>
