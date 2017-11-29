@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> <!-- jQuery link -->
+</head>
+<body>
+<button id="callAjax">get bit coin info</button>
+
+<div id="result"> <span id="amount"></span><span id="symbol"></span></div>
+
+<script>
+    $(function(){
+        $("#callAjax").click(getRate())
+    });
+    function getRate(){
+        console.log("button clicked");
+        $.ajax({
+            url:"https://api.coindesk.com/v1/bpi/currentprice.json", //where the bitcoin information is taken from
+            method:"GET", //defines the method of retrieving it from the server
+            dataType:"JSON", //says that is a JSON data type
+            success:function(result){ //if statement
+                console.log("in success");
+                var bpi = result.bpi; //declares the var 'bpi' that has the data from result's 'bpi' element
+                var euro = bpi.USD; // declares the var 'euro' that has the bpi's 'USD' element
+                $("#amount").html(euro.rate); //displays in the html 'amount' span the 'result.bpi.USD.rate'
+                $("#symbol").html(euro.symbol); //displays in the html 'symbol' span the 'result.bpi.USD.symbol'
+                $("#result").html(JSON.stringify(euro)); //this, when not greyed out, displays the full information from the above URL
+            },
+            error:function(){ //else part of the above 'if' statement
+                console.log("error");
+            }
+        })
+    }
+    setInterval(getRate,1000); //get the rate every 1 second
+
+    //NOTE: line 25 and 26 can be done on a single line like so > 'result.bpi.USD'
+</script>
+
+
+</body>
+</html>
