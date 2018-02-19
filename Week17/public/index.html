@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id="filmTable">
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>genre</th>
+        <th>edit</th>
+        <th>delete</th>
+    </tr>
+</table>
+
+<script>
+$( function(){
+    $.ajax({
+        url:'/film',
+        method:'GET',
+        data:{},
+        dataType:'JSON',
+        success:function(result){
+            populateTable(result);
+        },
+        error:function(err){
+            console.log(err);
+        }
+    })
+ })
+    function populateTable(films){
+        console.log(JSON.stringify(films));
+        var len = films.length;
+        for (var i = 0 ; i< len; i++){
+            var film = films[i];
+
+
+        }
+
+    }
+
+</script>
+</body>
+</html>
